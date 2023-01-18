@@ -1,18 +1,29 @@
-//Тоглогчийн ээлжийг хадгалах хувьсагч, нэгдүгээр тоглогчийг 0 хоёрдугаар тоглогчийг 1 гэж тэмдэглэе
-var activePlayer = 0;
+//Тоглоомын бүх газарт ашиглах глобаль хувьсагчдыг энд зарлая 
+
+//Аль тоглогч шо шидэх вэ гэдгийг энд хадгална.
+var activePlayer;
+//Хоёр тоглогчийн цуглуулсан оноонууд
+var scores;
+//Идэвхтэй тоглогчийн цуглуулж байгаа ээлжийн оноо
+var roundScore;
+//Шооны зургийг үзүүлэх элементийг DOM-оос хайж олоод энд хадгалья
+var diceDom = document.querySelector(".dice");
+
+//Тоглоомыг эхлүүллээ
+initGame();
+
+//Тоглоомыг шинээр эхлэхэд бэлтгэнэ
+function initGame(){
+    //Тоглогчийн ээлжийг хадгалах хувьсагч, нэгдүгээр тоглогчийг 0 хоёрдугаар тоглогчийг 1 гэж тэмдэглэе
+ activePlayer = 0;
 
 
 //Тоглогчдын цуглуулсан оноог хадгалах хувьсагч 
-var scores = [0,0];
+scores = [0,0];
 
 
 // Тоглогчийн ээлжиндээ цуглуулаж байгаа оноог хадгалах хувьсагч 
-var roundScore = 0;
-
-
-// Шооны аль талаараа буусаныг хадгалах хувьсагч хэрэгтэй 1-6 гэсэн утгыг энэ
-//санамсаргүйгээр үүсгэж өгнө
-
+ roundScore = 0;
 
 //Програм эхлэхэд бэлтгэе
 document.getElementById("score-0").textContent = '0';
@@ -20,9 +31,20 @@ document.getElementById("score-1").textContent = '0';
 document.getElementById("current-0").textContent = '0';
 document.getElementById("current-1").textContent = '0';
 
+//Тоглогчдын нэрийг буцааж гаргах
+document.getElementById("name-0").textContent = "Player 1";
+document.getElementById("name-1").textContent = "Player 2";
 
-var diceDom = document.querySelector(".dice");
+document.querySelector('.player-0-panel').classList.remove("winner");
+document.querySelector('.player-1-panel').classList.remove("winner");
+
+document.querySelector('.player-0-panel').classList.remove("active");
+document.querySelector('.player-1-panel').classList.remove("active");
+
+document.querySelector('.player-0-panel').classList.add("active");
+
 diceDom.style.display = "none";
+}
 
 //Шоог шидэх эвент листенер
 document.querySelector('.btn-roll').addEventListener('click',function (){
@@ -61,12 +83,6 @@ document.querySelector('.btn-roll').addEventListener('click',function (){
 //HOLD товчны эвент листенер
 document.querySelector('.btn-hold').addEventListener('click',function(){
     //Уг тоглогчийн цуглуулсан ээлжний оноог глобал оноон дээр нь нэмж өгнө
-  /*if(activePlayer === 0){
-    scores[0] = scores[0]+roundScore;
-  }
-  else{
-    scores[1] = scores[1]+roundScore;
-  }*/
 
   scores[activePlayer] = scores[activePlayer] + roundScore
   
@@ -75,7 +91,7 @@ document.querySelector('.btn-hold').addEventListener('click',function(){
    scores[activePlayer];
 
 //Уг тоглогч хожсон эсэхийг (оноо нь 100-с их эсэх) шалгах
-  if(scores[activePlayer] >= 100)
+  if(scores[activePlayer] >= 10)
   {
     //Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
     document.getElementById('name-'+ activePlayer).textContent = "WINNER!!!";
@@ -111,9 +127,7 @@ function switchToNextPlayer()
 };
 
 
-// Шинэ тоглоом эхлүүлэх товчний эвент листенер
+// New game буюум Шинэ тоглоом эхлүүлэх товчний эвент листенер
 
-document.querySelector('.btn-new').addEventListener('click',function(){
-
-});
+document.querySelector('.btn-new').addEventListener('click', initGame );
 
